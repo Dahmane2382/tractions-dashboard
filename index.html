@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tractions – Dashboard d’Adrien</title>
+
+    <style>
+        body {
+            font-family: Segoe UI, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 30px;
+            color: #222;
+        }
+
+        /* ---- LOGIN SCREEN ---- */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        #login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        #login-box input {
+            width: 90%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+        }
+
+        #login-box button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #login-error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* ---- DASHBOARD (TON CODE) ---- */
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        #app {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+
+        #searchBtn {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            background: #4a90e2;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #searchBtn:hover {
+            background: #3a78c2;
+        }
+
+        #result {
+            margin-top: 12px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========================= -->
+<!-- 🔐 1) ECRAN DE CONNEXION -->
+<!-- ========================= -->
+<div id="login-screen">
+    <div id="login-box">
+        <h2>🔐 Connexion</h2>
+        <input type="password" id="password-input" placeholder="Mot de passe">
+        <button onclick="login()">Se connecter</button>
+        <div id="login-error"></div>
+    </div>
+</div>
+
+<!-- ========================= -->
+<!-- 2) TON DASHBOARD ENTIER  -->
+<!-- ========================= -->
+<div id="dashboard" style="display:none;">
+
+<h1>Dashboard Tractions Lestées – A. Pfyffer</h1>
+
+<div id="app">
+
+    <!-- Champ de recherche -->
+    <div class="card">
+        <h2>🔍 Recherche par date</h2>
+        <input type="date" id="dateInput">
+        <button id="searchBtn">Rechercher</button>
+        <div id="result"></div>
+    </div>
+
+    <!-- Graphique -->
+    <div class="card">
+        <h2>📈 Graphique</h2>
+        <img src="graph.png">
+    </div>
+
+    <!-- PR -->
+    <div class="card">
+        <h2>🏆 Records Personnels</h2>
+        <ul id="pr-list"></ul>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="card">
+        <h2>📊 Statistiques Globales</h2>
+        <ul id="stats-list"></ul>
+    </div>
+
+</div>
+</div> <!-- fin dashboard -->
+
+
+<!-- ========================= -->
+<!-- 🔐 3) SCRIPT LOGIN + APP -->
+<!-- ========================= -->
+<script>
+/* ----------------------------
+   LOGIN SYSTEM (Option 2)
+-----------------------------*/
+/* ----------------------------
+   LOGIN SYSTEM (Option 2)
+-----------------------------*/
+const PASSWORD_HASH = "83bff28c2b8b792b7d0d6cf45b218917459ec894cfbf1e3241f09d6a8c0a6d94";
+
+async function login() {
+    const input = document.getElementById("password-input").value;
+
+    // Hash en SHA-256
+    const hashBuffer = await crypto.subtle.digest(
+        "SHA-256",
+        new TextEncoder().encode(input)
+    );
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+
+    if (hashHex === PASSWORD_HASH) {
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+    } else {
+        document.getElementById("login-error").innerText = "Mot de passe incorrect";
+    }
+}
+
+
+/* ----------------------------
+   TON SCRIPT EXISTANT (inchangé)
+-----------------------------*/
+fetch("data.json")
+    .then(response => response.json())
+    .then(data => {
+        console.log("Clés JSON chargées :", Object.keys(data));
+        initApp(data);
+    });
+
+function initApp(data) {
+
+function convertirDate(dateInput) { return dateInput; }
+
+function afficherDonnees(dateBrute) {
+    const d = convertirDate(dateBrute);
+    let res = document.getElementById("result");
+
+    const dates = Object.keys(data).sort();
+
+    if (d < dates[0]) {
+        res.innerHTML = "⛔ Date antérieure au début des mesures.";
+        return;
+    }
+
+    if (d > dates[dates.length - 1]) {
+        res.innerHTML = "⛔ Date dans le futur.";
+        return;
+    }
+
+    if (data[d]) {
+        const s = data[d];
+        res.innerHTML =
+            "Poids : " + s.poids + " kg<br>" +
+            "Best reps : " + s.best_reps + "<br>" +
+            "1RM théorique : <b>" + s["1RM_lest"].toFixed(1) + " kg</b>";
+        return;
+    }
+
+    let dateAvant = null, dateApres = null;
+    for (let i = 0; i < dates.length-1; i++) {
+        if (dates[i] < d && d < dates[i+1]) {
+            dateAvant = dates[i];
+            dateApres = dates[i+1];
+            break;
+        }
+    }
+
+    const t = new Date(d).getTime();
+    const tA = new Date(dateAvant).getTime();
+    const tB = new Date(dateApres).getTime();
+    const ratio = (t - tA) / (tB - tA);
+
+    const A = data[dateAvant];
+    const B = data[dateApres];
+
+    const poidsI = A.poids + ratio * (B.poids - A.poids);
+    const repsI  = A.best_reps + ratio * (B.best_reps - A.best_reps);
+    const rmI    = A["1RM_lest"] + ratio * (B["1RM_lest"] - A["1RM_lest"]);
+
+    res.innerHTML =
+        "<i>(Valeurs interpolées)</i><br>" +
+        "Poids estimé : " + poidsI.toFixed(1) + " kg<br>" +
+        "Best reps estimé : " + repsI.toFixed(1) + "<br>" +
+        "1RM estimé : <b>" + rmI.toFixed(1) + " kg</b>";
+}
+
+document.getElementById("dateInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") afficherDonnees(e.target.value.trim());
+});
+
+document.getElementById("searchBtn").addEventListener("click", () => {
+    afficherDonnees(document.getElementById("dateInput").value.trim());
+});
+
+let pr1rm = -Infinity, pr_weight = -Infinity;
+let pr_date_1rm = "", pr_date_weight = "";
+
+for (let d in data) {
+    if (data[d]["1RM_lest"] > pr1rm) {
+        pr1rm = data[d]["1RM_lest"];
+        pr_date_1rm = d;
+    }
+    if (data[d].poids > pr_weight) {
+        pr_weight = data[d].poids;
+        pr_date_weight = d;
+    }
+}
+
+document.getElementById("pr-list").innerHTML = `
+    <li><b>1RM max :</b> ${pr1rm.toFixed(1)} kg (${pr_date_1rm})</li>
+    <li><b>Poids lesté max :</b> ${pr_weight} kg (${pr_date_weight})</li>
+`;
+
+let total = Object.keys(data).length;
+let avg_reps = 0, avg_rm = 0;
+
+for (let d in data) {
+    avg_reps += data[d].best_reps;
+    avg_rm += data[d]["1RM_lest"];
+}
+
+avg_reps /= total;
+avg_rm /= total;
+
+document.getElementById("stats-list").innerHTML = `
+    <li>Nombre total de séances : ${total}</li>
+    <li>Moyenne best reps : ${avg_reps.toFixed(2)}</li>
+    <li>Moyenne 1RM théorique : ${avg_rm.toFixed(2)} kg</li>
+`;
+}
+</script>
+
+</body>
+</html>
