@@ -5,14 +5,14 @@
     "serie1": 6,
     "serie2": 6,
     "serie3": 5,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       6.0,
       6.0,
       5.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 6,
     "charge_totale": 90.5,
@@ -26,14 +26,14 @@
     "serie1": 6,
     "serie2": 6,
     "serie3": 6,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       6.0,
       6.0,
       6.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 6,
     "charge_totale": 90.5,
@@ -69,13 +69,13 @@
     "serie2": 5,
     "serie3": 6,
     "serie4": 7.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       6.0,
       7.0,
-      NaN
+      null
     ],
     "best_reps": 7,
     "charge_totale": 95.5,
@@ -90,13 +90,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 100.5,
@@ -111,13 +111,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 6.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       6.0,
-      NaN
+      null
     ],
     "best_reps": 6,
     "charge_totale": 100.5,
@@ -131,14 +131,14 @@
     "serie1": 5,
     "serie2": 5,
     "serie3": 5,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 5,
     "charge_totale": 100.5,
@@ -153,13 +153,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 100.5,
@@ -174,13 +174,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 103.0,
@@ -195,13 +195,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 104.0,
@@ -216,13 +216,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 105.5,
@@ -237,13 +237,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 106.5,
@@ -258,13 +258,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 108.0,
@@ -279,13 +279,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 108.0,
@@ -300,13 +300,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 4.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       4.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 109.0,
@@ -321,13 +321,13 @@
     "serie2": 5,
     "serie3": 4,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       4.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 110.5,
@@ -342,13 +342,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 110.5,
@@ -363,13 +363,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 6.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       6.0,
-      NaN
+      null
     ],
     "best_reps": 6,
     "charge_totale": 110.5,
@@ -384,13 +384,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 113.0,
@@ -426,13 +426,13 @@
     "serie2": 4,
     "serie3": 4,
     "serie4": 4.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       4.0,
       4.0,
       4.0,
       4.0,
-      NaN
+      null
     ],
     "best_reps": 4,
     "charge_totale": 115.5,
@@ -447,13 +447,13 @@
     "serie2": 4,
     "serie3": 4,
     "serie4": 4.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       4.0,
       4.0,
       4.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 118.0,
@@ -468,13 +468,13 @@
     "serie2": 4,
     "serie3": 4,
     "serie4": 4.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       4.0,
       4.0,
       4.0,
       4.0,
-      NaN
+      null
     ],
     "best_reps": 4,
     "charge_totale": 118.0,
@@ -489,13 +489,13 @@
     "serie2": 5,
     "serie3": 4,
     "serie4": 4.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       4.0,
       5.0,
       4.0,
       4.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 115.5,
@@ -510,13 +510,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 115.5,
@@ -531,13 +531,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 5.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       5.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 115.5,
@@ -593,14 +593,14 @@
     "serie1": 5,
     "serie2": 5,
     "serie3": 5,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 5,
     "charge_totale": 115.5,
@@ -615,13 +615,13 @@
     "serie2": 4,
     "serie3": 4,
     "serie4": 4.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       4.0,
       4.0,
       4.0,
       4.0,
-      NaN
+      null
     ],
     "best_reps": 4,
     "charge_totale": 120.5,
@@ -635,14 +635,14 @@
     "serie1": 5,
     "serie2": 5,
     "serie3": 5,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 5,
     "charge_totale": 116.5,
@@ -656,14 +656,14 @@
     "serie1": 5,
     "serie2": 4,
     "serie3": 5,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       5.0,
       4.0,
       5.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 5,
     "charge_totale": 118.0,
@@ -677,14 +677,14 @@
     "serie1": 5,
     "serie2": 5,
     "serie3": 4,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       4.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 5,
     "charge_totale": 120.5,
@@ -698,14 +698,14 @@
     "serie1": 5,
     "serie2": 5,
     "serie3": 5,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 5,
     "charge_totale": 120.5,
@@ -720,13 +720,13 @@
     "serie2": 5,
     "serie3": 5,
     "serie4": 4.0,
-    "serie5": NaN,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       5.0,
       4.0,
-      NaN
+      null
     ],
     "best_reps": 5,
     "charge_totale": 120.5,
@@ -740,14 +740,14 @@
     "serie1": 4,
     "serie2": 4,
     "serie3": 3,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       4.0,
       4.0,
       3.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 4,
     "charge_totale": 123.0,
@@ -761,14 +761,14 @@
     "serie1": 4,
     "serie2": 4,
     "serie3": 4,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       4.0,
       4.0,
       4.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 4,
     "charge_totale": 123.0,
@@ -782,14 +782,14 @@
     "serie1": 5,
     "serie2": 4,
     "serie3": 4,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       5.0,
       4.0,
       4.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 5,
     "charge_totale": 123.0,
@@ -803,14 +803,14 @@
     "serie1": 5,
     "serie2": 5,
     "serie3": 4,
-    "serie4": NaN,
-    "serie5": NaN,
+    "serie4": null,
+    "serie5": null,
     "series": [
       5.0,
       5.0,
       4.0,
-      NaN,
-      NaN
+      null,
+      null
     ],
     "best_reps": 5,
     "charge_totale": 123.0,
