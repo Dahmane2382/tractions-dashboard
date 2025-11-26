@@ -64,23 +64,15 @@
             width: 100%;
             border-radius: 12px;
         }
-
-        ul {
-            padding-left: 20px;
-        }
     </style>
 </head>
 <body>
-
-<!-- ========================= -->
-<!--  🌟 DASHBOARD DIRECT -->
-<!-- ========================= -->
 
 <h1>Dashboard Tractions Lestées – A. Pfyffer</h1>
 
 <div id="app">
 
-    <!-- Champ de recherche -->
+    <!-- Recherche -->
     <div class="card">
         <h2>🔍 Recherche par date</h2>
         <input type="date" id="dateInput">
@@ -88,7 +80,7 @@
         <div id="result"></div>
     </div>
 
-    <!-- Graphique -->
+    <!-- Graph -->
     <div class="card">
         <h2>📈 Graphique</h2>
         <img src="graph.png">
@@ -100,7 +92,7 @@
         <ul id="pr-list"></ul>
     </div>
 
-    <!-- Statistiques -->
+    <!-- Stats -->
     <div class="card">
         <h2>📊 Statistiques Globales</h2>
         <ul id="stats-list"></ul>
@@ -108,127 +100,131 @@
 
 </div>
 
-<!-- ========================= -->
-<!--  📜 SCRIPT PRINCIPAL -->
-<!-- ========================= -->
 <script>
 fetch("data.json?v=" + Date.now())
-    .then(response => response.json())
-    .then(data => {
-        initApp(data);
-    });
+    .then(r => r.json())
+    .then(data => initApp(data));
 
 function initApp(data) {
 
-function convertirDate(dateInput) {
-    // Format possible : "04.11.2025"
-    if (dateInput.includes(".")) {
-        let [day, month, year] = dateInput.split(".");
-        day = day.padStart(2, "0");
-        month = month.padStart(2, "0");
-        return `${year}-${month}-${day}`;
-    }
-    // Sinon retourne tel quel (au cas où)
-    return dateInput;
-}
-
-function afficherDonnees(dateBrute) {
-    const d = convertirDate(dateBrute);
-    let res = document.getElementById("result");
-
-    const dates = Object.keys(data).sort((a, b) => new Date(a) - new Date(b));
-
-
-    if (d < dates[0]) {
-        res.innerHTML = "⛔ Date antérieure au début des mesures.";
-        return;
+    // Convertit YYYY-MM-DD → DD-MM-YYYY
+    function toDDMMYYYY(dateStr) {
+        // ex : "2025-11-23"
+        const [year, month, day] = dateStr.split("-");
+        return `${day}-${month}-${year}`;
     }
 
-    if (d > dates[dates.length - 1]) {
-        res.innerHTML = "⛔ Date dans le futur.";
-        return;
-    }
+    function afficherDonnees(dateInput) {
+        const d = toDDMMYYYY(dateInput);  // conversion automatique
+        const res = document.getElementById("result");
 
-    if (data[d]) {
-        const s = data[d];
+        const dates = Object.keys(data).sort((a,b)=>{
+            const [da,ma,ya]=a.split("-");
+            const [db,mb,yb]=b.split("-");
+            return new Date(ya,ma-1,da) - new Date(yb,mb-1,db);
+        });
+
+        // vérification bornes
+        if (d < dates[0]) {
+            res.innerHTML = "⛔ Date antérieure au début des mesures.";
+            return;
+        }
+        if (d > dates[dates.length - 1]) {
+            res.innerHTML = "⛔ Date dans le futur.";
+            return;
+        }
+
+        // Cas exact
+        if (data[d]) {
+            const s = data[d];
+            res.innerHTML =
+                "Poids : " + s.poids + " kg<br>" +
+                "Best reps : " + s.best_reps + "<br>" +
+                "1RM théorique : <b>" + s.rm_lest.toFixed(1) + " kg</b>";
+            return;
+        }
+
+        // Trouver les dates autour
+        let dA = null, dB = null;
+        for (let i = 0; i < dates.length - 1; i++) {
+            if (dates[i] < d && d < dates[i+1]) {
+                dA = dates[i];
+                dB = dates[i+1];
+                break;
+            }
+        }
+
+        const [dDay,dMonth,dYear] = d.split("-");
+        const t = new Date(dYear, dMonth-1, dDay).getTime();
+
+        function toTime(x) {
+            const [day,month,year] = x.split("-");
+            return new Date(year,month-1,day).getTime();
+        }
+
+        const tA = toTime(dA);
+        const tB = toTime(dB);
+
+        const ratio = (t - tA) / (tB - tA);
+
+        const A = data[dA];
+        const B = data[dB];
+
+        const poidsI = A.poids + ratio * (B.poids - A.poids);
+        const repsI  = A.best_reps + ratio * (B.best_reps - A.best_reps);
+        const rmI    = A.rm_lest + ratio * (B.rm_lest - A.rm_lest);
+
         res.innerHTML =
-            "Poids : " + s.poids + " kg<br>" +
-            "Best reps : " + s.best_reps + "<br>" +
-            "1RM théorique : <b>" + s["rm_lest"].toFixed(1) + " kg</b>";
-        return;
+            "<i>(Valeurs interpolées)</i><br>" +
+            "Poids estimé : " + poidsI.toFixed(1) + " kg<br>" +
+            "Best reps estimé : " + repsI.toFixed(1) + "<br>" +
+            "1RM estimé : <b>" + rmI.toFixed(1) + " kg</b>";
     }
 
-    let dateAvant = null, dateApres = null;
-    for (let i = 0; i < dates.length-1; i++) {
-        if (dates[i] < d && d < dates[i+1]) {
-            dateAvant = dates[i];
-            dateApres = dates[i+1];
-            break;
+    document.getElementById("searchBtn").onclick = ()=>{
+        afficherDonnees(document.getElementById("dateInput").value);
+    };
+
+    // ---------- PR ----------
+    let pr1rm = -Infinity;
+    let pr1rm_date = "";
+    let pr_weight = -Infinity;
+    let pr_weight_date = "";
+
+    for (let d in data) {
+        if (data[d].rm_lest > pr1rm) {
+            pr1rm = data[d].rm_lest;
+            pr1rm_date = d;
+        }
+        if (data[d].poids > pr_weight) {
+            pr_weight = data[d].poids;
+            pr_weight_date = d;
         }
     }
 
-    const t = new Date(d).getTime();
-    const tA = new Date(dateAvant).getTime();
-    const tB = new Date(dateApres).getTime();
-    const ratio = (t - tA) / (tB - tA);
+    document.getElementById("pr-list").innerHTML = `
+        <li><b>1RM max :</b> ${pr1rm.toFixed(1)} kg (${pr1rm_date})</li>
+        <li><b>Poids lesté max :</b> ${pr_weight} kg (${pr_weight_date})</li>
+    `;
 
-    const A = data[dateAvant];
-    const B = data[dateApres];
+    // ---------- Stats ----------
+    const dates = Object.keys(data);
+    const total = dates.length;
 
-    const poidsI = A.poids + ratio * (B.poids - A.poids);
-    const repsI  = A.best_reps + ratio * (B.best_reps - A.best_reps);
-    const rmI    = A["rm_lest"] + ratio * (B["rm_lest"] - A["rm_lest"]);
-
-    res.innerHTML =
-        "<i>(Valeurs interpolées)</i><br>" +
-        "Poids estimé : " + poidsI.toFixed(1) + " kg<br>" +
-        "Best reps estimé : " + repsI.toFixed(1) + "<br>" +
-        "1RM estimé : <b>" + rmI.toFixed(1) + " kg</b>";
-}
-
-document.getElementById("dateInput").addEventListener("keydown", e => {
-    if (e.key === "Enter") afficherDonnees(e.target.value.trim());
-});
-
-document.getElementById("searchBtn").addEventListener("click", () => {
-    afficherDonnees(document.getElementById("dateInput").value.trim());
-});
-
-let pr1rm = -Infinity, pr_weight = -Infinity;
-let pr_date_1rm = "", pr_date_weight = "";
-
-for (let d in data) {
-    if (data[d]["rm_lest"] > pr1rm) {
-        pr1rm = data[d]["rm_lest"];
-        pr_date_1rm = d;
+    let avg_reps = 0, avg_rm = 0;
+    for (let d of dates) {
+        avg_reps += data[d].best_reps;
+        avg_rm += data[d].rm_lest;
     }
-    if (data[d].poids > pr_weight) {
-        pr_weight = data[d].poids;
-        pr_date_weight = d;
-    }
-}
 
-document.getElementById("pr-list").innerHTML = `
-    <li><b>1RM max :</b> ${pr1rm.toFixed(1)} kg (${pr_date_1rm})</li>
-    <li><b>Poids lesté max :</b> ${pr_weight} kg (${pr_date_weight})</li>
-`;
+    avg_reps /= total;
+    avg_rm /= total;
 
-let total = Object.keys(data).length;
-let avg_reps = 0, avg_rm = 0;
-
-for (let d in data) {
-    avg_reps += data[d].best_reps;
-    avg_rm += data[d]["rm_lest"];
-}
-
-avg_reps /= total;
-avg_rm /= total;
-
-document.getElementById("stats-list").innerHTML = `
-    <li>Nombre total de séances : ${total}</li>
-    <li>Moyenne best reps : ${avg_reps.toFixed(2)}</li>
-    <li>Moyenne 1RM théorique : ${avg_rm.toFixed(2)} kg</li>
-`;
+    document.getElementById("stats-list").innerHTML = `
+        <li>Nombre total de séances : ${total}</li>
+        <li>Moyenne best reps : ${avg_reps.toFixed(2)}</li>
+        <li>Moyenne 1RM théorique : ${avg_rm.toFixed(2)} kg</li>
+    `;
 }
 </script>
 
