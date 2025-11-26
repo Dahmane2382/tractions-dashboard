@@ -154,7 +154,7 @@ function afficherDonnees(dateBrute) {
         res.innerHTML =
             "Poids : " + s.poids + " kg<br>" +
             "Best reps : " + s.best_reps + "<br>" +
-            "1RM théorique : <b>" + s["1RM_lest"].toFixed(1) + " kg</b>";
+            "1RM théorique : <b>" + s["rm_lest"].toFixed(1) + " kg</b>";
         return;
     }
 
@@ -177,7 +177,7 @@ function afficherDonnees(dateBrute) {
 
     const poidsI = A.poids + ratio * (B.poids - A.poids);
     const repsI  = A.best_reps + ratio * (B.best_reps - A.best_reps);
-    const rmI    = A["1RM_lest"] + ratio * (B["1RM_lest"] - A["1RM_lest"]);
+    const rmI    = A["rm_lest"] + ratio * (B["rm_lest"] - A["rm_lest"]);
 
     res.innerHTML =
         "<i>(Valeurs interpolées)</i><br>" +
@@ -198,8 +198,8 @@ let pr1rm = -Infinity, pr_weight = -Infinity;
 let pr_date_1rm = "", pr_date_weight = "";
 
 for (let d in data) {
-    if (data[d]["1RM_lest"] > pr1rm) {
-        pr1rm = data[d]["1RM_lest"];
+    if (data[d]["rm_lest"] > pr1rm) {
+        pr1rm = data[d]["rm_lest"];
         pr_date_1rm = d;
     }
     if (data[d].poids > pr_weight) {
@@ -218,7 +218,7 @@ let avg_reps = 0, avg_rm = 0;
 
 for (let d in data) {
     avg_reps += data[d].best_reps;
-    avg_rm += data[d]["1RM_lest"];
+    avg_rm += data[d]["rm_lest"];
 }
 
 avg_reps /= total;
