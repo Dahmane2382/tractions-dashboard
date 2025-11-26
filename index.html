@@ -100,41 +100,51 @@
 
 </div>
 
+<!-- ========================= -->
+<!--   SCRIPT PRINCIPAL       -->
+<!-- ========================= -->
 <script>
 fetch("data.json?v=" + Date.now())
     .then(r => r.json())
     .then(data => initApp(data));
 
+
 function initApp(data) {
 
     // Convertit YYYY-MM-DD → DD-MM-YYYY
     function toDDMMYYYY(dateStr) {
-        // ex : "2025-11-23"
         const [year, month, day] = dateStr.split("-");
         return `${day}-${month}-${year}`;
     }
 
-    function afficherDonnees(dateInput) {
-        const d = toDDMMYYYY(dateInput);  // conversion automatique
+    // Convertit DD-MM-YYYY → timestamp utilisable
+    function toTimestamp(dstr) {
+        const [d, m, y] = dstr.split("-").map(Number);
+        return new Date(y, m - 1, d).getTime();
+    }
+
+    function afficherDonnees(inputValue) {
+        const d = toDDMMYYYY(inputValue);
         const res = document.getElementById("result");
 
-        const dates = Object.keys(data).sort((a,b)=>{
-            const [da,ma,ya]=a.split("-");
-            const [db,mb,yb]=b.split("-");
-            return new Date(ya,ma-1,da) - new Date(yb,mb-1,db);
-        });
+        const dates = Object.keys(data).sort((a, b) => toTimestamp(a) - toTimestamp(b));
 
-        // vérification bornes
-        if (d < dates[0]) {
-            res.innerHTML = "⛔ Date antérieure au début des mesures.";
-            return;
-        }
-        if (d > dates[dates.length - 1]) {
-            res.innerHTML = "⛔ Date dans le futur.";
-            return;
-        }
+        const t = toTimestamp(d);
+	const tMin = toTimestamp(dates[0]);
+	const tMax = toTimestamp(dates[dates.length - 1]);
 
-        // Cas exact
+	if (t < tMin) {
+   		res.innerHTML = "⛔ Date antérieure au début des mesures.";
+    		return;
+	}
+
+	if (t > tMax) {
+    		res.innerHTML = "⛔ Date dans le futur.";
+    		return;
+	}
+
+
+        // Cas exact → affichage direct
         if (data[d]) {
             const s = data[d];
             res.innerHTML =
@@ -144,28 +154,23 @@ function initApp(data) {
             return;
         }
 
-        // Trouver les dates autour
-        let dA = null, dB = null;
-        for (let i = 0; i < dates.length - 1; i++) {
-            if (dates[i] < d && d < dates[i+1]) {
-                dA = dates[i];
-                dB = dates[i+1];
-                break;
-            }
-        }
+        // Sinon interpolation
+	let dA = null, dB = null;
 
-        const [dDay,dMonth,dYear] = d.split("-");
-        const t = new Date(dYear, dMonth-1, dDay).getTime();
+	for (let i = 0; i < dates.length - 1; i++) {
+    		if (toTimestamp(dates[i]) < t &&
+    			t < toTimestamp(dates[i+1])) {
+        		dA = dates[i];
+        		dB = dates[i+1];
+        		break;
+    		}
+	}
 
-        function toTime(x) {
-            const [day,month,year] = x.split("-");
-            return new Date(year,month-1,day).getTime();
-        }
+	const tA = toTimestamp(dA);
+	const tB = toTimestamp(dB);
 
-        const tA = toTime(dA);
-        const tB = toTime(dB);
+	const ratio = (t - tA) / (tB - tA);
 
-        const ratio = (t - tA) / (tB - tA);
 
         const A = data[dA];
         const B = data[dB];
@@ -181,9 +186,14 @@ function initApp(data) {
             "1RM estimé : <b>" + rmI.toFixed(1) + " kg</b>";
     }
 
-    document.getElementById("searchBtn").onclick = ()=>{
+
+    document.getElementById("searchBtn").onclick = () => {
         afficherDonnees(document.getElementById("dateInput").value);
     };
+
+    document.getElementById("dateInput").addEventListener("keydown", e => {
+        if (e.key === "Enter") afficherDonnees(e.target.value);
+    });
 
     // ---------- PR ----------
     let pr1rm = -Infinity;
@@ -207,11 +217,13 @@ function initApp(data) {
         <li><b>Poids lesté max :</b> ${pr_weight} kg (${pr_weight_date})</li>
     `;
 
+
     // ---------- Stats ----------
     const dates = Object.keys(data);
     const total = dates.length;
 
     let avg_reps = 0, avg_rm = 0;
+
     for (let d of dates) {
         avg_reps += data[d].best_reps;
         avg_rm += data[d].rm_lest;
