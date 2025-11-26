@@ -120,13 +120,24 @@ fetch("data.json")
 
 function initApp(data) {
 
-function convertirDate(dateInput) { return dateInput; }
+function convertirDate(dateInput) {
+    // Format possible : "04.11.2025"
+    if (dateInput.includes(".")) {
+        let [day, month, year] = dateInput.split(".");
+        day = day.padStart(2, "0");
+        month = month.padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+    // Sinon retourne tel quel (au cas où)
+    return dateInput;
+}
 
 function afficherDonnees(dateBrute) {
     const d = convertirDate(dateBrute);
     let res = document.getElementById("result");
 
-    const dates = Object.keys(data).sort();
+    const dates = Object.keys(data).sort((a, b) => new Date(a) - new Date(b));
+
 
     if (d < dates[0]) {
         res.innerHTML = "⛔ Date antérieure au début des mesures.";
