@@ -817,5 +817,26 @@
     "1RM_total": 143.39648150816276,
     "rm_lest": 57.896481508162765,
     "progress_status": "progress"
+  },
+  "02.12.2025": {
+    "date": "02.12.2025",
+    "poids": 40.0,
+    "serie1": 4,
+    "serie2": 4,
+    "serie3": 4,
+    "serie4": null,
+    "serie5": null,
+    "series": [
+      4.0,
+      4.0,
+      4.0,
+      null,
+      null
+    ],
+    "best_reps": 4,
+    "charge_totale": 125.5,
+    "1RM_total": 141.55835059368079,
+    "rm_lest": 56.058350593680785,
+    "progress_status": "progress"
   }
 }
